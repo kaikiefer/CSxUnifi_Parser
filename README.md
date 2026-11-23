@@ -2,7 +2,7 @@
 
 Independent custom parser and candidate searches for UniFi Network, Protect and OS CEF exports. Not an official CrowdStrike or Ubiquiti product. Targets CPS 1.2.0 and ECS 9.5.0. 
 
-##!!! USE AT YOUR OWN RISK !!!
+## !!! USE AT YOUR OWN RISK !!!
 
 ## Contents
 - Import parsers/ubiquiti-unifi.yaml, or use parsers/ubiquiti-unifi.cql in the parser editor.
