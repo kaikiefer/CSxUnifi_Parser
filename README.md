@@ -4,6 +4,20 @@ Independent custom parser and candidate searches for UniFi Network, Protect and 
 
 ## !!! USE AT YOUR OWN RISK !!!
 
+## Supported UniFi apps
+
+The parser handles **CEF SIEM exports**, either bare CEF or CEF carried inside RFC 3164, RFC 5424, or ISO-style syslog envelopes. It consumes one event per input record.
+
+| App | Synthetic fixture coverage | Other recognition in the parser |
+| --- | --- | --- |
+| **UniFi Network** (`unifi.network`) | Admin access, IDS/IPS events with numeric severities, client connection, IPv6 and syslog envelopes. | Firewall allow/deny, client disconnect/roam and other recognized authentication events are mapped but are not covered by this release's fixture set. |
+| **UniFi Protect** (`unifi.protect`) | Failed login. | Camera motion and alarms that arrive as CEF are kept as ordinary events, not cyber intrusion alerts. The camera tamper and offline queries are templates to validate against your deployment's event names. |
+| **UniFi OS** (`unifi.os`) | Failed login, admin configuration changes with IPv4/IPv6 source addresses, Test Syslog, and a shortened OS CEF header. | Other recognized authentication and configuration names are handled best-effort. A shortened admin record without enough detail is kept as informational, not inferred as a successful login or change. |
+
+The table describes code and synthetic examples, not compatibility verified in a live Falcon/LogScale tenant or across UniFi firmware versions. Run the included tests in your tenant and validate representative exports before production ingestion.
+
+**Not covered:** Other UniFi app exports (such as Access, Talk, and Connect), non-CEF syslog or raw device logs, iptables logs, support bundles, Protect API JSON, and Alarm Manager webhook JSON. An unsupported or malformed record is retained and flagged as a pipeline error rather than normalized as a supported event.
+
 ## Contents
 - Import parsers/ubiquiti-unifi.yaml, or use parsers/ubiquiti-unifi.cql in the parser editor.
 - searches/ contains 13 candidate rules and three investigation queries. Review searches/README.md and detection-notes.md before deployment.
@@ -32,7 +46,7 @@ Tests check export schema (when supplied), YAML/source consistency, fixture stru
 ## Fixtures and licensing
 
 All example events are synthetic. No captured logs are included.
-No license is granted.
+Licensed under the [MIT License](LICENSE). Keep the copyright and permission notices in copies or substantial portions of the software. The software is provided as is, without warranty.
 
 ## References
 - https://developer.crowdstrike.com/ngsiem/cps/compliant-parsers/
